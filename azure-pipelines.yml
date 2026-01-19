@@ -1,0 +1,23 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: UsePythonVersion@0
+  inputs:
+    versionSpec: '3.11'
+
+- script: |
+    pip install -r requirements.txt
+  displayName: 'Install dependencies'
+
+- script: |
+    robot ts01-search-book ts02-delete-book
+  displayName: 'Run Robot Framework tests'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: $(System.DefaultWorkingDirectory)
+    artifact: robot-report

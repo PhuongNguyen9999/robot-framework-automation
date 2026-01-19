@@ -1,14 +1,17 @@
 *** Settings ***
 Library    SeleniumLibrary
+Library    Collections
+Library    BuiltIn
 
 *** Variables ***
 ${BROWSER}    chrome
-${CHROME_OPTIONS}    add_argument(--headless)    add_argument(--no-sandbox)    add_argument(--disable-dev-shm-usage)
 
 *** Keywords ***
 Open Browser To URL
     [Arguments]    ${url}
-    Open Browser    ${url}    ${BROWSER}    options=${CHROME_OPTIONS}
+    ${options}=    Create Dictionary
+    ...    args=--headless,--no-sandbox,--disable-dev-shm-usage
+    Open Browser    ${url}    ${BROWSER}    options=${options}
     Maximize Browser Window
 
 Close Browser Session

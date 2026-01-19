@@ -1,0 +1,39 @@
+*** Settings ***
+Library    RequestsLibrary
+Resource   ../data/users.resource
+Resource   ../data/books.resource
+
+*** Variables ***
+${BASE_URL}    https://demoqa.com
+${ALREADY_PRESENT_MSG}    ISBN already present in the User's Collection!
+
+*** Keywords ***
+Add Book Via API
+    Evaluate    warnings.filterwarnings('ignore', message='Unverified HTTPS request')    modules=warnings
+    Delete All Sessions
+    Create Session    demoqa    ${BASE_URL}    verify=False
+
+    ${auth}=    Create Dictionary
+    ...    userName=${USERNAME}
+    ...    password=${PASSWORD}
+
+    ${auth_resp}=    POST On Session    demoqa    /Account/v1/GenerateToken    json=${auth}
+    Should Be Equal As Integers    ${auth_resp.status_code}    200
+
+    ${token}=    Set Variable    ${auth_resp.json()['token']}
+
+    ${headers}=    Create Dictionary
+    ...    Authorization=Bearer ${token}
+    ...    Content-Type=application/json
+
+    ${isbn}=    Create Dictionary    isbn=${BOOK_ISBN}
+    ${isbn_list}=    Create List    ${isbn}
+
+    ${body}=    Create Dictionary
+    ...    userId=${USER_ID}
+    ...    collectionOfIsbns=${isbn_list}
+
+    ${resp}=    Post On Session    demoqa    /BookStore/v1/Books    json=${body}    headers=${headers}    expected_status=any
+    Run Keyword If    ${resp.status_code} == 400 and "${ALREADY_PRESENT_MSG}" in """${resp.text}"""    Log    Book already exists, skipping add
+    ...    ELSE IF    ${resp.status_code} == 201    Log    Book added successfully
+    ...    ELSE    Fail    Add book failed: ${resp.status_code} ${resp.text}

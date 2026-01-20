@@ -6,7 +6,7 @@ pool:
 
 steps:
 
-# 1. Dùng Python
+# 1. Python
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.11'
@@ -17,10 +17,10 @@ steps:
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
-# 3. Cài Google Chrome
+# 3. Cài Chrome + lib cần thiết
 - script: |
     sudo apt-get update
-    sudo apt-get install -y wget gnupg unzip curl
+    sudo apt-get install -y wget unzip curl xvfb libxi6 libgconf-2-4
 
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo apt install -y ./google-chrome-stable_current_amd64.deb
@@ -28,7 +28,7 @@ steps:
     google-chrome --version
   displayName: 'Install Google Chrome'
 
-# 4. Cài ChromeDriver đúng version Chrome
+# 4. Cài ChromeDriver đúng version
 - script: |
     CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
     echo "Chrome major version: $CHROME_VERSION"
@@ -45,17 +45,13 @@ steps:
     chromedriver --version
   displayName: 'Install ChromeDriver'
 
-# 5. Dùng common_ci.resource cho pipeline
+# 5. Chạy Robot bằng XVFB (giả lập màn hình)
 - script: |
-    cp resources/common_ci.resource resources/common.resource
-  displayName: 'Use CI common resource'
-
-# 6. Chạy Robot headless
-- script: |
+    xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' \
     robot ts01-search-book ts02-delete-book
   displayName: 'Run Robot Framework tests'
 
-# 7. Publish report
+# 6. Publish report
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)

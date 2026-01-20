@@ -14,12 +14,13 @@ steps:
     pip install -r requirements.txt
   displayName: Install dependencies
 
+# Start Selenium Chrome container
 - script: |
-    export ENV=ci
+    docker run -d -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:latest
+    sleep 10
+  displayName: Start Selenium Chrome
+
+# Run robot
+- script: |
     robot --variable ENV:ci ts01-search-book ts02-delete-book
   displayName: Run Robot Framework tests
-
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: $(System.DefaultWorkingDirectory)
-    artifact: robot-report

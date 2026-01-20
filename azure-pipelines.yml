@@ -17,10 +17,35 @@ steps:
     pip install -r requirements.txt
   displayName: Install dependencies
 
-# Run robot in headless
+# Install matching ChromeDriver
 - script: |
-    export HEADLESS=true
-    xvfb-run robot ts01-search-book ts02-delete-book
+    sudo rm -f /usr/bin/chromedriver /usr/local/bin/chromedriver || true
+
+    CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
+    CHROME_MAJOR=$(echo $CHROME_VERSION | cut -d '.' -f 1)
+
+    echo "Chrome version: $CHROME_VERSION"
+
+    DRIVER_VERSION=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_$CHROME_MAJOR)
+    echo "Driver version: $DRIVER_VERSION"
+
+    wget https://storage.googleapis.com/chrome-for-testing-public/$DRIVER_VERSION/linux64/chromedriver-linux64.zip
+    unzip chromedriver-linux64.zip
+    sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+    sudo chmod +x /usr/local/bin/chromedriver
+
+    chromedriver --version
+  displayName: Install matching ChromeDriver
+
+# Run robot with virtual display
+- script: |
+    which google-chrome
+    which chromedriver
+    google-chrome --version
+    chromedriver --version
+
+    xvfb-run --auto-servernum --server-args="-screen 0 1920x1080x24" \
+    robot ts01-search-book ts02-delete-book
   displayName: Run Robot Framework tests
 
 # Publish report

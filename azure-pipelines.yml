@@ -2,33 +2,51 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-22.04'   # không dùng ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
 steps:
+
+# 1. Dùng Python
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.11'
 
+# 2. Cài thư viện
 - script: |
+    python -m pip install --upgrade pip
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
-# Install Chromium
+# 3. Cài Google Chrome
 - script: |
-    sudo apt update
-    sudo apt install -y chromium-browser chromium-chromedriver xvfb
-    chromium-browser --version
-    chromedriver --version
-  displayName: 'Install Chromium & Driver'
+    sudo apt-get update
+    sudo apt-get install -y wget gnupg unzip
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    sudo apt install -y ./google-chrome-stable_current_amd64.deb
+  displayName: 'Install Google Chrome'
 
-# Run tests
+# 4. Cài ChromeDriver đúng version
+- script: |
+    CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
+    echo "Chrome version: $CHROME_VERSION"
+
+    DRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
+    wget https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip
+
+    unzip chromedriver_linux64.zip
+    sudo mv chromedriver /usr/local/bin/
+    sudo chmod +x /usr/local/bin/chromedriver
+
+    chromedriver --version
+  displayName: 'Install ChromeDriver'
+
+# 5. Chạy Robot với headless
 - script: |
     export HEADLESS=true
-    export BROWSER=chrome
-    export PATH=/usr/lib/chromium-browser/:$PATH
-    xvfb-run -a robot ts01-search-book ts02-delete-book
+    robot ts01-search-book ts02-delete-book
   displayName: 'Run Robot Framework tests'
 
+# 6. Publish report
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)

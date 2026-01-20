@@ -17,7 +17,14 @@ steps:
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
-# 3. Cài Chrome + lib cần thiết
+# 3. Remove chromedriver cũ của Azure
+- script: |
+    sudo rm -f /usr/bin/chromedriver
+    sudo rm -f /usr/local/bin/chromedriver
+    which chromedriver || echo "No chromedriver in PATH"
+  displayName: 'Remove default ChromeDriver'
+
+# 4. Cài Chrome
 - script: |
     sudo apt-get update
     sudo apt-get install -y wget unzip curl xvfb libxi6 libgconf-2-4
@@ -28,7 +35,7 @@ steps:
     google-chrome --version
   displayName: 'Install Google Chrome'
 
-# 4. Cài ChromeDriver đúng version
+# 5. Cài ChromeDriver đúng version Chrome
 - script: |
     CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
     echo "Chrome major version: $CHROME_VERSION"
@@ -39,19 +46,19 @@ steps:
     wget https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip
     unzip chromedriver_linux64.zip
 
-    sudo mv chromedriver /usr/local/bin/
-    sudo chmod +x /usr/local/bin/chromedriver
+    sudo mv chromedriver /usr/bin/chromedriver
+    sudo chmod +x /usr/bin/chromedriver
 
     chromedriver --version
-  displayName: 'Install ChromeDriver'
+  displayName: 'Install matching ChromeDriver'
 
-# 5. Chạy Robot bằng XVFB (giả lập màn hình)
+# 6. Run Robot bằng XVFB
 - script: |
     xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' \
     robot ts01-search-book ts02-delete-book
   displayName: 'Run Robot Framework tests'
 
-# 6. Publish report
+# 7. Publish report
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)

@@ -1,301 +1,302 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.1 (Python 3.11.11 on win32)" generated="2026-01-20T13:42:45.480494" rpa="false" schemaversion="5">
-<suite id="s1" name="Delete-Book" source="C:\automation\robot-framework-automation\ts02-delete-book\delete-book.robot">
-<kw name="Add Book Via API" owner="api" type="SETUP">
-<kw name="Evaluate" owner="BuiltIn">
-<arg>warnings.filterwarnings('ignore', message='Unverified HTTPS request')</arg>
-<arg>modules=warnings</arg>
-<doc>Evaluates the given expression in Python and returns the result.</doc>
-<status status="PASS" start="2026-01-20T13:42:45.697817" elapsed="0.000000"/>
-</kw>
-<kw name="Delete All Sessions" owner="RequestsLibrary">
-<msg time="2026-01-20T13:42:45.697817" level="INFO">Deleting All Sessions</msg>
-<doc>Removes all the session objects</doc>
-<status status="PASS" start="2026-01-20T13:42:45.697817" elapsed="0.000000"/>
-</kw>
-<kw name="Create Session" owner="RequestsLibrary">
-<msg time="2026-01-20T13:42:45.697817" level="INFO">Creating Session using : alias=demoqa, url=https://demoqa.com, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<arg>demoqa</arg>
-<arg>${BASE_URL}</arg>
-<arg>verify=False</arg>
-<doc>Create Session: create a HTTP session to a server</doc>
-<status status="PASS" start="2026-01-20T13:42:45.697817" elapsed="0.000000"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-01-20T13:42:45.697817" level="INFO">${auth} = {'userName': 'phuong.playwright001', 'password': 'PhuongNguyen@12345'}</msg>
-<var>${auth}</var>
-<arg>userName=${USERNAME}</arg>
-<arg>password=${PASSWORD}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-01-20T13:42:45.697817" elapsed="0.000000"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-01-20T13:42:50.680954" level="INFO">POST Request : url=https://demoqa.com/Account/v1/GenerateToken 
- path_url=/Account/v1/GenerateToken 
- headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '70', 'Content-Type': 'application/json'} 
- body=b'{"userName": "phuong.playwright001", "password": "PhuongNguyen@12345"}' 
- </msg>
-<msg time="2026-01-20T13:42:50.680954" level="INFO">POST Response : url=https://demoqa.com/Account/v1/GenerateToken 
- status=200, reason=OK 
- headers={'Server': 'nginx/1.17.10 (Ubuntu)', 'Date': 'Tue, 20 Jan 2026 06:42:51 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '302', 'Connection': 'keep-alive', 'X-Powered-By': 'Express', 'ETag': 'W/"12e-w/ErjJQPjJuFMvxB0LMinVkRqsw"'} 
- body={"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InBodW9uZy5wbGF5d3JpZ2h0MDAxIiwicGFzc3dvcmQiOiJQaHVvbmdOZ3V5ZW5AMTIzNDUiLCJpYXQiOjE3Njg4OTEzNzB9.jYX11nxOp1Buvm5uuiuvpjQww7aKUKAqqaF-b57t_do","expires":"2026-01-27T06:42:50.090Z","status":"Success","result":"User authorized successfully."} 
- </msg>
-<msg time="2026-01-20T13:42:50.680954" level="INFO">${auth_resp} = &lt;Response [200]&gt;</msg>
-<var>${auth_resp}</var>
-<arg>demoqa</arg>
-<arg>/Account/v1/GenerateToken</arg>
-<arg>json=${auth}</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-01-20T13:42:45.697817" elapsed="4.983137"/>
-</kw>
-<kw name="Should Be Equal As Integers" owner="BuiltIn">
-<msg time="2026-01-20T13:42:50.680954" level="INFO">Argument types are:
-&lt;class 'int'&gt;
-&lt;class 'str'&gt;</msg>
-<arg>${auth_resp.status_code}</arg>
-<arg>200</arg>
-<doc>Fails if objects are unequal after converting them to integers.</doc>
-<status status="PASS" start="2026-01-20T13:42:50.680954" elapsed="0.000000"/>
-</kw>
-<kw name="Set Variable" owner="BuiltIn">
-<msg time="2026-01-20T13:42:50.680954" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InBodW9uZy5wbGF5d3JpZ2h0MDAxIiwicGFzc3dvcmQiOiJQaHVvbmdOZ3V5ZW5AMTIzNDUiLCJpYXQiOjE3Njg4OTEzNzB9.jYX11nxOp1Buvm5uuiuvpjQww7aKUKAqqaF-b57t_do</msg>
-<var>${token}</var>
-<arg>${auth_resp.json()['token']}</arg>
-<doc>Returns the given values which can then be assigned to a variables.</doc>
-<status status="PASS" start="2026-01-20T13:42:50.680954" elapsed="0.000000"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-01-20T13:42:50.680954" level="INFO">${headers} = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InBodW9uZy5wbGF5d3JpZ2h0MDAxIiwicGFzc3dvcmQiOiJQaHVvbmdOZ3V5ZW5AMTIzNDUiLCJpYXQiOjE3Njg4OTEzNzB9.jYX11nxOp1Buvm5uuiuvpjQw...</msg>
-<var>${headers}</var>
-<arg>Authorization=Bearer ${token}</arg>
-<arg>Content-Type=application/json</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-01-20T13:42:50.680954" elapsed="0.000000"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-01-20T13:42:50.680954" level="INFO">${isbn} = {'isbn': '9781449331818'}</msg>
-<var>${isbn}</var>
-<arg>isbn=${BOOK_ISBN}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-01-20T13:42:50.680954" elapsed="0.000000"/>
-</kw>
-<kw name="Create List" owner="BuiltIn">
-<msg time="2026-01-20T13:42:50.680954" level="INFO">${isbn_list} = [{'isbn': '9781449331818'}]</msg>
-<var>${isbn_list}</var>
-<arg>${isbn}</arg>
-<doc>Returns a list containing given items.</doc>
-<status status="PASS" start="2026-01-20T13:42:50.680954" elapsed="0.000000"/>
-</kw>
-<kw name="Create Dictionary" owner="BuiltIn">
-<msg time="2026-01-20T13:42:50.680954" level="INFO">${body} = {'userId': 'f2971715-cab9-4084-8e33-2ea3eda2866d', 'collectionOfIsbns': [{'isbn': '9781449331818'}]}</msg>
-<var>${body}</var>
-<arg>userId=${USER_ID}</arg>
-<arg>collectionOfIsbns=${isbn_list}</arg>
-<doc>Creates and returns a dictionary based on the given ``items``.</doc>
-<status status="PASS" start="2026-01-20T13:42:50.680954" elapsed="0.000000"/>
-</kw>
-<kw name="POST On Session" owner="RequestsLibrary">
-<msg time="2026-01-20T13:42:51.018764" level="INFO">POST Request : url=https://demoqa.com/BookStore/v1/Books 
- path_url=/BookStore/v1/Books 
- headers={'User-Agent': 'python-requests/2.32.5', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6InBodW9uZy5wbGF5d3JpZ2h0MDAxIiwicGFzc3dvcmQiOiJQaHVvbmdOZ3V5ZW5AMTIzNDUiLCJpYXQiOjE3Njg4OTEzNzB9.jYX11nxOp1Buvm5uuiuvpjQww7aKUKAqqaF-b57t_do', 'Content-Type': 'application/json', 'Content-Length': '100'} 
- body=b'{"userId": "f2971715-cab9-4084-8e33-2ea3eda2866d", "collectionOfIsbns": [{"isbn": "9781449331818"}]}' 
- </msg>
-<msg time="2026-01-20T13:42:51.018764" level="INFO">POST Response : url=https://demoqa.com/BookStore/v1/Books 
- status=201, reason=Created 
- headers={'Server': 'nginx/1.17.10 (Ubuntu)', 'Date': 'Tue, 20 Jan 2026 06:42:51 GMT', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '36', 'Connection': 'keep-alive', 'X-Powered-By': 'Express', 'ETag': 'W/"24-FbIaM8H88wOkWWLNix2cmOmkWT8"'} 
- body={"books":[{"isbn":"9781449331818"}]} 
- </msg>
-<msg time="2026-01-20T13:42:51.018764" level="INFO">${resp} = &lt;Response [201]&gt;</msg>
-<var>${resp}</var>
-<arg>demoqa</arg>
-<arg>/BookStore/v1/Books</arg>
-<arg>json=${body}</arg>
-<arg>headers=${headers}</arg>
-<arg>expected_status=any</arg>
-<doc>Sends a POST request on a previously created HTTP Session.</doc>
-<status status="PASS" start="2026-01-20T13:42:50.680954" elapsed="0.337810"/>
-</kw>
+<robot generator="Robot 7.4.1 (Python 3.11.11 on win32)" generated="2026-01-20T14:23:59.259018" rpa="false" schemaversion="5">
+<suite id="s1" name="Search-Books" source="C:\automation\robot-framework-automation\ts01-search-book\search-books.robot">
+<kw name="Open Browser To URL" owner="common" type="SETUP">
 <kw name="Run Keyword If" owner="BuiltIn">
-<kw name="Log" owner="BuiltIn">
-<msg time="2026-01-20T13:42:51.018764" level="INFO">Book added successfully</msg>
-<arg>Book added successfully</arg>
-<doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-01-20T13:42:51.018764" elapsed="0.000000"/>
-</kw>
-<arg>${resp.status_code} == 400 and "${ALREADY_PRESENT_MSG}" in """${resp.text}"""</arg>
-<arg>Log</arg>
-<arg>Book already exists, skipping add</arg>
-<arg>ELSE IF</arg>
-<arg>${resp.status_code} == 201</arg>
-<arg>Log</arg>
-<arg>Book added successfully</arg>
-<arg>ELSE</arg>
-<arg>Fail</arg>
-<arg>Add book failed: ${resp.status_code} ${resp.text}</arg>
-<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
-<status status="PASS" start="2026-01-20T13:42:51.018764" elapsed="0.000000"/>
-</kw>
-<status status="PASS" start="2026-01-20T13:42:45.697817" elapsed="5.320947"/>
-</kw>
-<test id="s1-t1" name="TC02 - Delete book successfully" line="13">
-<kw name="Open Login Page" owner="login">
+<kw name="Open Browser Normal" owner="common">
 <kw name="Open Browser" owner="SeleniumLibrary">
-<msg time="2026-01-20T13:42:51.018764" level="INFO">Opening browser 'chrome' to base url 'https://demoqa.com/login'.</msg>
-<arg>${LOGIN_URL}</arg>
-<arg>chrome</arg>
+<msg time="2026-01-20T14:23:59.447043" level="INFO">Opening browser 'chrome' to base url 'https://demoqa.com/books'.</msg>
+<arg>${url}</arg>
+<arg>${BROWSER}</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2026-01-20T13:42:51.018764" elapsed="6.454208"/>
+<status status="PASS" start="2026-01-20T14:23:59.447043" elapsed="7.459564"/>
+</kw>
+<arg>${url}</arg>
+<status status="PASS" start="2026-01-20T14:23:59.446149" elapsed="7.461397"/>
+</kw>
+<arg>'${HEADLESS}'=='True'</arg>
+<arg>Open Browser Headless</arg>
+<arg>${url}</arg>
+<arg>ELSE</arg>
+<arg>Open Browser Normal</arg>
+<arg>${url}</arg>
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<status status="PASS" start="2026-01-20T14:23:59.446149" elapsed="7.461397"/>
 </kw>
 <kw name="Maximize Browser Window" owner="SeleniumLibrary">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" start="2026-01-20T13:42:57.473994" elapsed="0.040397"/>
+<status status="PASS" start="2026-01-20T14:24:06.907546" elapsed="0.038501"/>
 </kw>
-<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
-<arg>${USERNAME_TXT}</arg>
-<arg>15s</arg>
-<doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2026-01-20T13:42:57.515393" elapsed="0.071898"/>
+<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<arg>//body</arg>
+<arg>20s</arg>
+<doc>Waits until the element ``locator`` appears on the current page.</doc>
+<status status="PASS" start="2026-01-20T14:24:06.946047" elapsed="0.025305"/>
 </kw>
-<status status="PASS" start="2026-01-20T13:42:51.018764" elapsed="6.568527"/>
+<arg>${BOOK_STORE_URL}</arg>
+<status status="PASS" start="2026-01-20T14:23:59.445042" elapsed="7.526310"/>
 </kw>
-<kw name="Login" owner="login">
+<test id="s1-t1" name="TC01 - Search books with keyword Design" line="12">
+<kw name="Search Book And Verify">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-01-20T14:24:06.975039" level="INFO">Start test with keyword: Design</msg>
+<arg>Start test with keyword: ${keyword}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-01-20T14:24:06.974296" elapsed="0.000743"/>
+</kw>
+<kw name="Search Book" owner="book_store">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2026-01-20T13:42:57.589289" level="INFO">Typing text 'phuong.playwright001' into text field 'id:userName'.</msg>
-<arg>${USERNAME_TXT}</arg>
-<arg>${username}</arg>
+<msg time="2026-01-20T14:24:06.977110" level="INFO">Typing text 'Design' into text field 'id:searchBox'.</msg>
+<arg>${SEARCH_BOX}</arg>
+<arg>${keyword}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2026-01-20T13:42:57.588287" elapsed="0.198760"/>
-</kw>
-<kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2026-01-20T13:42:57.787482" level="INFO">Typing text 'PhuongNguyen@12345' into text field 'id:password'.</msg>
-<arg>${PASSWORD_TXT}</arg>
-<arg>${password}</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2026-01-20T13:42:57.787482" elapsed="0.097168"/>
-</kw>
-<kw name="Scroll Element Into View" owner="SeleniumLibrary">
-<arg>${LOGIN_BTN}</arg>
-<doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2026-01-20T13:42:57.885000" elapsed="0.308609"/>
+<status status="PASS" start="2026-01-20T14:24:06.977110" elapsed="0.223360"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2026-01-20T13:42:59.194939" level="INFO">Slept 1 second.</msg>
+<msg time="2026-01-20T14:24:08.201793" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2026-01-20T13:42:58.193609" elapsed="1.001330"/>
+<status status="PASS" start="2026-01-20T14:24:07.201515" elapsed="1.000278"/>
 </kw>
-<kw name="Execute Javascript" owner="SeleniumLibrary">
-<msg time="2026-01-20T13:42:59.195997" level="INFO">Executing JavaScript:
-document.getElementById("login").click()
-Without any arguments.</msg>
-<arg>document.getElementById("login").click()</arg>
-<doc>Executes the given JavaScript code with possible arguments.</doc>
-<status status="PASS" start="2026-01-20T13:42:59.194939" elapsed="0.020627"/>
+<arg>${keyword}</arg>
+<status status="PASS" start="2026-01-20T14:24:06.976109" elapsed="1.225684"/>
 </kw>
-<arg>${USERNAME}</arg>
-<arg>${PASSWORD}</arg>
-<status status="PASS" start="2026-01-20T13:42:57.588287" elapsed="1.627279"/>
+<kw name="Get Book Count" owner="book_store">
+<kw name="Get Element Count" owner="SeleniumLibrary">
+<msg time="2026-01-20T14:24:08.220561" level="INFO">${count} = 2</msg>
+<var>${count}</var>
+<arg>css:.rt-tbody .rt-tr-group a</arg>
+<doc>Returns the number of elements matching ``locator``.</doc>
+<status status="PASS" start="2026-01-20T14:24:08.202416" elapsed="0.018145"/>
 </kw>
-<kw name="Verify Login Success" owner="login">
-<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
-<arg>${USERNAME_LABEL}</arg>
-<arg>15s</arg>
-<doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2026-01-20T13:42:59.216635" elapsed="2.410811"/>
+<return>
+<value>${count}</value>
+<status status="PASS" start="2026-01-20T14:24:08.220561" elapsed="0.000000"/>
+</return>
+<msg time="2026-01-20T14:24:08.220561" level="INFO">${count} = 2</msg>
+<var>${count}</var>
+<status status="PASS" start="2026-01-20T14:24:08.202416" elapsed="0.018145"/>
 </kw>
-<kw name="Element Text Should Be" owner="SeleniumLibrary">
-<msg time="2026-01-20T13:43:01.628656" level="INFO">Verifying element 'id:userName-value' contains exact text 'phuong.playwright001'.</msg>
-<arg>${USERNAME_LABEL}</arg>
-<arg>${username}</arg>
-<doc>Verifies that element ``locator`` contains exact the text ``expected``.</doc>
-<status status="PASS" start="2026-01-20T13:43:01.627446" elapsed="0.031005"/>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${count} &gt; 0</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-01-20T14:24:08.220561" elapsed="0.001111"/>
 </kw>
-<arg>${USERNAME}</arg>
-<status status="PASS" start="2026-01-20T13:42:59.215566" elapsed="2.443237"/>
+<for flavor="IN RANGE">
+<iter>
+<kw name="Get Book Title By Index" owner="book_store">
+<kw name="Get Text" owner="SeleniumLibrary">
+<msg time="2026-01-20T14:24:08.253940" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
+<var>${title}</var>
+<arg>xpath=(//div[@class="rt-tbody"]//a)[${index}+1]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-01-20T14:24:08.222673" elapsed="0.031267"/>
 </kw>
-<kw name="Go To Profile Page" owner="profile">
-<kw name="Go To" owner="SeleniumLibrary">
-<msg time="2026-01-20T13:43:01.659849" level="INFO">Opening url 'https://demoqa.com/profile'</msg>
-<arg>${PROFILE_URL}</arg>
-<doc>Navigates the current browser window to the provided ``url``.</doc>
-<status status="PASS" start="2026-01-20T13:43:01.659849" elapsed="0.793431"/>
+<return>
+<value>${title}</value>
+<status status="PASS" start="2026-01-20T14:24:08.254959" elapsed="0.000000"/>
+</return>
+<msg time="2026-01-20T14:24:08.254959" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
+<var>${title}</var>
+<arg>${i}</arg>
+<status status="PASS" start="2026-01-20T14:24:08.221672" elapsed="0.033287"/>
 </kw>
-<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
-<arg>${SEARCH_BOX}</arg>
-<arg>10s</arg>
-<doc>Waits until the element ``locator`` appears on the current page.</doc>
-<status status="PASS" start="2026-01-20T13:43:02.453280" elapsed="0.346316"/>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-01-20T14:24:08.256193" level="INFO">Book 1: Learning JavaScript Design Patterns</msg>
+<arg>Book ${i + 1}: ${title}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-01-20T14:24:08.254959" elapsed="0.001234"/>
 </kw>
-<status status="PASS" start="2026-01-20T13:43:01.658803" elapsed="1.140793"/>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${title.lower()}</arg>
+<arg>${SEARCH_EXPECT_TEXT}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2026-01-20T14:24:08.256193" elapsed="0.001189"/>
 </kw>
-<kw name="Search Book" owner="profile">
+<var name="${i}">0</var>
+<status status="PASS" start="2026-01-20T14:24:08.221672" elapsed="0.035710"/>
+</iter>
+<iter>
+<kw name="Get Book Title By Index" owner="book_store">
+<kw name="Get Text" owner="SeleniumLibrary">
+<msg time="2026-01-20T14:24:08.284777" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
+<var>${title}</var>
+<arg>xpath=(//div[@class="rt-tbody"]//a)[${index}+1]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-01-20T14:24:08.258364" elapsed="0.027433"/>
+</kw>
+<return>
+<value>${title}</value>
+<status status="PASS" start="2026-01-20T14:24:08.285797" elapsed="0.000000"/>
+</return>
+<msg time="2026-01-20T14:24:08.285797" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
+<var>${title}</var>
+<arg>${i}</arg>
+<status status="PASS" start="2026-01-20T14:24:08.258364" elapsed="0.027433"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-01-20T14:24:08.286798" level="INFO">Book 2: Designing Evolvable Web APIs with ASP.NET</msg>
+<arg>Book ${i + 1}: ${title}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-01-20T14:24:08.285797" elapsed="0.001001"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${title.lower()}</arg>
+<arg>${SEARCH_EXPECT_TEXT}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2026-01-20T14:24:08.286798" elapsed="0.001535"/>
+</kw>
+<var name="${i}">1</var>
+<status status="PASS" start="2026-01-20T14:24:08.257382" elapsed="0.030951"/>
+</iter>
+<var>${i}</var>
+<value>${count}</value>
+<status status="PASS" start="2026-01-20T14:24:08.221672" elapsed="0.066661"/>
+</for>
+<arg>Design</arg>
+<status status="PASS" start="2026-01-20T14:24:06.973716" elapsed="1.314617"/>
+</kw>
+<status status="PASS" start="2026-01-20T14:24:06.971352" elapsed="1.316981"/>
+</test>
+<test id="s1-t2" name="TC02 - Search books with keyword design" line="15">
+<kw name="Search Book And Verify">
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-01-20T14:24:08.290370" level="INFO">Start test with keyword: design</msg>
+<arg>Start test with keyword: ${keyword}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-01-20T14:24:08.290370" elapsed="0.000000"/>
+</kw>
+<kw name="Search Book" owner="book_store">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2026-01-20T13:43:02.800597" level="INFO">Typing text 'Learning JavaScript Design Patterns' into text field 'id:searchBox'.</msg>
+<msg time="2026-01-20T14:24:08.292350" level="INFO">Typing text 'design' into text field 'id:searchBox'.</msg>
 <arg>${SEARCH_BOX}</arg>
-<arg>${book_name}</arg>
+<arg>${keyword}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2026-01-20T13:43:02.800597" elapsed="0.223957"/>
+<status status="PASS" start="2026-01-20T14:24:08.291366" elapsed="0.186611"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2026-01-20T13:43:05.026051" level="INFO">Slept 2 seconds.</msg>
-<arg>2s</arg>
+<msg time="2026-01-20T14:24:09.479369" level="INFO">Slept 1 second.</msg>
+<arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2026-01-20T13:43:03.025807" elapsed="2.000244"/>
+<status status="PASS" start="2026-01-20T14:24:08.478979" elapsed="1.000390"/>
 </kw>
-<arg>${BOOK_NAME}</arg>
-<status status="PASS" start="2026-01-20T13:43:02.800597" elapsed="2.225454"/>
+<arg>${keyword}</arg>
+<status status="PASS" start="2026-01-20T14:24:08.291366" elapsed="1.188003"/>
 </kw>
-<kw name="Delete Book" owner="profile">
-<kw name="Execute Javascript" owner="SeleniumLibrary">
-<msg time="2026-01-20T13:43:05.028195" level="INFO">Executing JavaScript:
-window.scrollTo(0, document.body.scrollHeight)
-Without any arguments.</msg>
-<arg>window.scrollTo(0, document.body.scrollHeight)</arg>
-<doc>Executes the given JavaScript code with possible arguments.</doc>
-<status status="PASS" start="2026-01-20T13:43:05.027218" elapsed="0.026071"/>
+<kw name="Get Book Count" owner="book_store">
+<kw name="Get Element Count" owner="SeleniumLibrary">
+<msg time="2026-01-20T14:24:09.496754" level="INFO">${count} = 2</msg>
+<var>${count}</var>
+<arg>css:.rt-tbody .rt-tr-group a</arg>
+<doc>Returns the number of elements matching ``locator``.</doc>
+<status status="PASS" start="2026-01-20T14:24:09.480494" elapsed="0.016260"/>
 </kw>
-<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
-<arg>${DELETE_BTN}</arg>
-<arg>10s</arg>
-<doc>Waits until the element ``locator`` appears on the current page.</doc>
-<status status="PASS" start="2026-01-20T13:43:05.053289" elapsed="0.016982"/>
+<return>
+<value>${count}</value>
+<status status="PASS" start="2026-01-20T14:24:09.497752" elapsed="0.000000"/>
+</return>
+<msg time="2026-01-20T14:24:09.497752" level="INFO">${count} = 2</msg>
+<var>${count}</var>
+<status status="PASS" start="2026-01-20T14:24:09.479369" elapsed="0.018383"/>
 </kw>
-<kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2026-01-20T13:43:05.071268" level="INFO">Clicking element 'xpath=//span[@title='Delete']'.</msg>
-<arg>${DELETE_BTN}</arg>
-<doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2026-01-20T13:43:05.070271" elapsed="0.088906"/>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${count} &gt; 0</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2026-01-20T14:24:09.497752" elapsed="0.000999"/>
 </kw>
-<kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
-<arg>${OK_BTN}</arg>
-<arg>10s</arg>
-<doc>Waits until the element ``locator`` appears on the current page.</doc>
-<status status="PASS" start="2026-01-20T13:43:05.160176" elapsed="0.015379"/>
+<for flavor="IN RANGE">
+<iter>
+<kw name="Get Book Title By Index" owner="book_store">
+<kw name="Get Text" owner="SeleniumLibrary">
+<msg time="2026-01-20T14:24:09.523656" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
+<var>${title}</var>
+<arg>xpath=(//div[@class="rt-tbody"]//a)[${index}+1]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-01-20T14:24:09.500195" elapsed="0.024473"/>
 </kw>
-<kw name="Click Button" owner="SeleniumLibrary">
-<msg time="2026-01-20T13:43:05.175555" level="INFO">Clicking button 'xpath=//button[text()='OK']'.</msg>
-<arg>${OK_BTN}</arg>
-<doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2026-01-20T13:43:05.175555" elapsed="0.139932"/>
+<return>
+<value>${title}</value>
+<status status="PASS" start="2026-01-20T14:24:09.524668" elapsed="0.000000"/>
+</return>
+<msg time="2026-01-20T14:24:09.524668" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
+<var>${title}</var>
+<arg>${i}</arg>
+<status status="PASS" start="2026-01-20T14:24:09.500195" elapsed="0.024473"/>
 </kw>
-<status status="PASS" start="2026-01-20T13:43:05.027218" elapsed="0.288269"/>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-01-20T14:24:09.527029" level="INFO">Book 1: Learning JavaScript Design Patterns</msg>
+<arg>Book ${i + 1}: ${title}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-01-20T14:24:09.524668" elapsed="0.002361"/>
 </kw>
-<status status="PASS" start="2026-01-20T13:42:51.018764" elapsed="14.297350"/>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${title.lower()}</arg>
+<arg>${SEARCH_EXPECT_TEXT}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2026-01-20T14:24:09.527029" elapsed="0.001985"/>
+</kw>
+<var name="${i}">0</var>
+<status status="PASS" start="2026-01-20T14:24:09.499751" elapsed="0.029263"/>
+</iter>
+<iter>
+<kw name="Get Book Title By Index" owner="book_store">
+<kw name="Get Text" owner="SeleniumLibrary">
+<msg time="2026-01-20T14:24:09.556744" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
+<var>${title}</var>
+<arg>xpath=(//div[@class="rt-tbody"]//a)[${index}+1]</arg>
+<doc>Returns the text value of the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-01-20T14:24:09.530010" elapsed="0.026734"/>
+</kw>
+<return>
+<value>${title}</value>
+<status status="PASS" start="2026-01-20T14:24:09.556744" elapsed="0.000000"/>
+</return>
+<msg time="2026-01-20T14:24:09.557742" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
+<var>${title}</var>
+<arg>${i}</arg>
+<status status="PASS" start="2026-01-20T14:24:09.529014" elapsed="0.028728"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2026-01-20T14:24:09.559752" level="INFO">Book 2: Designing Evolvable Web APIs with ASP.NET</msg>
+<arg>Book ${i + 1}: ${title}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2026-01-20T14:24:09.557742" elapsed="0.002010"/>
+</kw>
+<kw name="Should Contain" owner="BuiltIn">
+<arg>${title.lower()}</arg>
+<arg>${SEARCH_EXPECT_TEXT}</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" start="2026-01-20T14:24:09.559752" elapsed="0.001990"/>
+</kw>
+<var name="${i}">1</var>
+<status status="PASS" start="2026-01-20T14:24:09.529014" elapsed="0.032728"/>
+</iter>
+<var>${i}</var>
+<value>${count}</value>
+<status status="PASS" start="2026-01-20T14:24:09.498751" elapsed="0.062991"/>
+</for>
+<arg>design</arg>
+<status status="PASS" start="2026-01-20T14:24:08.290370" elapsed="1.271372"/>
+</kw>
+<status status="PASS" start="2026-01-20T14:24:08.289367" elapsed="1.273376"/>
 </test>
-<kw name="Close Browser" owner="SeleniumLibrary" type="TEARDOWN">
+<kw name="Close Browser Session" owner="common" type="TEARDOWN">
+<kw name="Close Browser" owner="SeleniumLibrary">
 <doc>Closes the current browser.</doc>
-<status status="PASS" start="2026-01-20T13:43:05.317398" elapsed="2.295614"/>
+<status status="PASS" start="2026-01-20T14:24:09.564741" elapsed="2.294896"/>
 </kw>
-<status status="PASS" start="2026-01-20T13:42:45.480494" elapsed="22.132518"/>
+<status status="PASS" start="2026-01-20T14:24:09.563741" elapsed="2.295896"/>
+</kw>
+<status status="PASS" start="2026-01-20T14:23:59.259018" elapsed="12.600619"/>
 </suite>
 <statistics>
 <total>
-<stat pass="1" fail="0" skip="0">All Tests</stat>
+<stat pass="2" fail="0" skip="0">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat name="Delete-Book" id="s1" pass="1" fail="0" skip="0">Delete-Book</stat>
+<stat name="Search-Books" id="s1" pass="2" fail="0" skip="0">Search-Books</stat>
 </suite>
 </statistics>
 <errors>

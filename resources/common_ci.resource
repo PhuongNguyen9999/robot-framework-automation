@@ -7,6 +7,17 @@ ${BROWSER}    chrome
 *** Keywords ***
 Open Browser To URL
     [Arguments]    ${url}
-    Open Browser    ${url}    ${BROWSER}
-    Maximize Browser Window
+
+    ${options}=    Evaluate    __import__('selenium.webdriver').webdriver.ChromeOptions()
+
+    Call Method    ${options}    add_argument    --headless=new
+    Call Method    ${options}    add_argument    --disable-gpu
+    Call Method    ${options}    add_argument    --no-sandbox
+    Call Method    ${options}    add_argument    --disable-dev-shm-usage
+    Call Method    ${options}    add_argument    --window-size=1920,1080
+
+    Open Browser    ${url}    ${BROWSER}    options=${options}
     Set Selenium Timeout    20s
+
+Close Browser Session
+    Close Browser

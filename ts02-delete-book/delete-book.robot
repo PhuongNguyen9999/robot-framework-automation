@@ -6,6 +6,7 @@ Library     SeleniumLibrary
 Resource    ../resources/api.resource
 Resource    ../resources/login.resource
 Resource    ../resources/profile.resource
+Resource    ../resources/common.resource
 Resource    ../resources/common_${ENV}.resource
 Resource    ../data/users.resource
 Resource    ../data/books.resource

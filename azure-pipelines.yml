@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'ubuntu-22.04'   # không dùng ubuntu-latest
 
 steps:
 - task: UsePythonVersion@0
@@ -13,37 +13,20 @@ steps:
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
-# Install Chrome
+# Install Chromium
 - script: |
     sudo apt update
-    sudo apt install -y google-chrome-stable
-  displayName: 'Install Chrome'
-
-# Install matching ChromeDriver
-- script: |
-    CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
-    echo "Chrome major version: $CHROME_VERSION"
-
-    DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
-    echo "Driver version: $DRIVER_VERSION"
-
-    wget -q https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip
-    unzip chromedriver_linux64.zip
-    sudo mv chromedriver /usr/local/bin/
-    sudo chmod +x /usr/local/bin/chromedriver
-
+    sudo apt install -y chromium-browser chromium-chromedriver xvfb
+    chromium-browser --version
     chromedriver --version
-  displayName: 'Install ChromeDriver'
-
-# Install xvfb
-- script: |
-    sudo apt install -y xvfb
-  displayName: 'Install xvfb'
+  displayName: 'Install Chromium & Driver'
 
 # Run tests
 - script: |
     export HEADLESS=true
-    xvfb-run robot ts01-search-book ts02-delete-book
+    export BROWSER=chrome
+    export PATH=/usr/lib/chromium-browser/:$PATH
+    xvfb-run -a robot ts01-search-book ts02-delete-book
   displayName: 'Run Robot Framework tests'
 
 - task: PublishPipelineArtifact@1

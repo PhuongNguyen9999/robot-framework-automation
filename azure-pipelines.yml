@@ -17,20 +17,36 @@ steps:
     pip install -r requirements.txt
   displayName: Install dependencies
 
-# Install matching ChromeDriver for Chrome 143
+# Install Chrome & matching ChromeDriver (Chrome for Testing)
 - script: |
-    sudo rm -f /usr/bin/chromedriver /usr/local/bin/chromedriver || true
+    sudo apt-get update
+    sudo apt-get install -y wget unzip curl
 
-    DRIVER_VERSION=143.0.7499.192
-    echo "Using ChromeDriver $DRIVER_VERSION"
+    # Install Chrome
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    sudo apt install -y ./google-chrome-stable_current_amd64.deb
 
-    wget https://storage.googleapis.com/chromedriver-storage-public/$DRIVER_VERSION/linux64/chromedriver-linux64.zip
+    # Get Chrome version
+    CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
+    CHROME_MAJOR=$(echo $CHROME_VERSION | cut -d '.' -f 1)
+
+    echo "Chrome version: $CHROME_VERSION"
+    echo "Chrome major: $CHROME_MAJOR"
+
+    # Get matching chromedriver version (Chrome for Testing)
+    DRIVER_VERSION=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/LATEST_RELEASE_$CHROME_MAJOR)
+    echo "ChromeDriver version: $DRIVER_VERSION"
+
+    # Download correct chromedriver
+    wget https://storage.googleapis.com/chrome-for-testing-public/$DRIVER_VERSION/linux64/chromedriver-linux64.zip
     unzip chromedriver-linux64.zip
+
     sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
     sudo chmod +x /usr/local/bin/chromedriver
 
     chromedriver --version
-  displayName: Install matching ChromeDriver
+    google-chrome --version
+  displayName: Install Chrome & ChromeDriver
 
 # Run robot with virtual display
 - script: |

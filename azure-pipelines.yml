@@ -5,10 +5,13 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+
+# Python
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.11'
 
+# Install libs
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
@@ -20,7 +23,13 @@ steps:
     sleep 10
   displayName: Start Selenium Chrome
 
-# Run robot
+# Run robot with CI config
 - script: |
     robot --variable ENV:ci ts01-search-book ts02-delete-book
   displayName: Run Robot Framework tests
+
+# Publish report
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: $(System.DefaultWorkingDirectory)
+    artifact: robot-report

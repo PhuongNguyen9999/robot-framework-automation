@@ -6,69 +6,30 @@ pool:
 
 steps:
 
-# 1. Python
+# Python
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.11'
 
-# 2. Install libs
+# Install libs
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
-# 3. Remove chromedriver rác của Azure
-- script: |
-    sudo rm -f /usr/bin/chromedriver
-    sudo rm -f /usr/local/bin/chromedriver
-    which chromedriver || echo "No chromedriver in PATH"
-  displayName: 'Remove default ChromeDriver'
-
-# 4. Install Chrome
+# Install Chrome
 - script: |
     sudo apt-get update
-    sudo apt-get install -y wget unzip curl xvfb jq
+    sudo apt-get install -y google-chrome-stable
+  displayName: 'Install Chrome'
 
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    sudo apt install -y ./google-chrome-stable_current_amd64.deb
-
-    google-chrome --version
-  displayName: 'Install Google Chrome'
-
-# 5. Install matching ChromeDriver (Chrome for Testing)
+# Run robot (headless)
 - script: |
-    CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
-    CHROME_MAJOR=$(echo $CHROME_VERSION | cut -d '.' -f 1)
-
-    echo "Chrome version: $CHROME_VERSION"
-    echo "Chrome major: $CHROME_MAJOR"
-
-    DRIVER_URL=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json \
-      | jq -r ".versions[] | select(.version | startswith(\"$CHROME_MAJOR.\")) | .downloads.chromedriver[] | select(.platform==\"linux64\") | .url" \
-      | head -n 1)
-
-    echo "Driver URL: $DRIVER_URL"
-
-    if [ -z "$DRIVER_URL" ]; then
-      echo "❌ Cannot find ChromeDriver for Chrome $CHROME_VERSION"
-      exit 1
-    fi
-
-    wget $DRIVER_URL -O chromedriver.zip
-    unzip chromedriver.zip
-    sudo mv chromedriver-linux64/chromedriver /usr/bin/chromedriver
-    sudo chmod +x /usr/bin/chromedriver
-
-    chromedriver --version
-  displayName: 'Install matching ChromeDriver'
-
-# 6. Run Robot with virtual display
-- script: |
-    xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' \
-    robot ts01-search-book ts02-delete-book
+    export HEADLESS=true
+    xvfb-run robot ts01-search-book ts02-delete-book
   displayName: 'Run Robot Framework tests'
 
-# 7. Publish report
+# Publish report
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)

@@ -1,25 +1,41 @@
+# *** Settings ***
+# Library    SeleniumLibrary
+
+# *** Variables ***
+# ${BROWSER}    chrome
+
+# *** Keywords ***
+# Open Browser To URL
+#     [Arguments]    ${url}
+#     Open Browser    ${url}    ${BROWSER}
+#     Maximize Browser Window
+
+# Close Browser Session
+#     Close Browser
+
+
+
 *** Settings ***
 Library    SeleniumLibrary
+Library    BuiltIn
 
 *** Variables ***
 ${BROWSER}    chrome
-${HEADLESS}   ${False}
+${HEADLESS}   false
 
 *** Keywords ***
 Open Browser To URL
     [Arguments]    ${url}
-    Run Keyword If    '${HEADLESS}'=='True'    Open Browser Headless    ${url}
-    ...    ELSE    Open Browser Normal    ${url}
+
+    ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
+
+    Run Keyword If    '${HEADLESS}'=='true'    Call Method    ${options}    add_argument    --headless=new
+    Run Keyword If    '${HEADLESS}'=='true'    Call Method    ${options}    add_argument    --no-sandbox
+    Run Keyword If    '${HEADLESS}'=='true'    Call Method    ${options}    add_argument    --disable-dev-shm-usage
+
+    Open Browser    ${url}    ${BROWSER}    options=${options}
     Maximize Browser Window
-    Wait Until Page Contains Element    //body    20s
-
-Open Browser Normal
-    [Arguments]    ${url}
-    Open Browser    ${url}    ${BROWSER}
-
-Open Browser Headless
-    [Arguments]    ${url}
-    Open Browser    ${url}    ${BROWSER}    headlesschrome
+    Set Selenium Timeout    20s
 
 Close Browser Session
     Close Browser

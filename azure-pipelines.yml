@@ -5,48 +5,24 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-
-# Use Python
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.11'
 
-# Install Google Chrome
-- script: |
-    sudo apt-get update
-    sudo apt-get install -y wget unzip xvfb curl
-    wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    sudo apt install -y ./google-chrome-stable_current_amd64.deb
-  displayName: 'Install Google Chrome'
-
-# Install ChromeDriver (auto match Chrome version)
-- script: |
-    CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
-    echo "Chrome major version: $CHROME_VERSION"
-
-    DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
-    echo "Matching ChromeDriver version: $DRIVER_VERSION"
-
-    wget -q https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip
-    unzip chromedriver_linux64.zip
-    sudo mv chromedriver /usr/local/bin/chromedriver
-    sudo chmod +x /usr/local/bin/chromedriver
-
-    chromedriver --version
-    google-chrome --version
-  displayName: 'Install ChromeDriver (match Chrome)'
-
-# Install Python dependencies
 - script: |
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
-# Run Robot Framework tests
 - script: |
+    sudo apt-get update
+    sudo apt-get install -y xvfb
+  displayName: 'Install Xvfb'
+
+- script: |
+    export HEADLESS=true
     xvfb-run robot ts01-search-book ts02-delete-book
   displayName: 'Run Robot Framework tests'
 
-# Publish report
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)

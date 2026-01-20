@@ -5,46 +5,20 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.11'
 
-# Install libs
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
   displayName: Install dependencies
 
-# Install Chrome for Testing + matching driver
 - script: |
-    sudo apt-get update
-    sudo apt-get install -y unzip wget xvfb
-
-    # Download Chrome for Testing
-    wget https://storage.googleapis.com/chrome-for-testing-public/143.0.7499.192/linux64/chrome-linux64.zip
-    unzip chrome-linux64.zip
-    sudo mv chrome-linux64 /opt/chrome
-
-    # Download matching ChromeDriver
-    wget https://storage.googleapis.com/chrome-for-testing-public/143.0.7499.192/linux64/chromedriver-linux64.zip
-    unzip chromedriver-linux64.zip
-    sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
-    sudo chmod +x /usr/local/bin/chromedriver
-
-    echo "Chrome installed at /opt/chrome/chrome"
-    /opt/chrome/chrome --version
-    chromedriver --version
-  displayName: Install Chrome for Testing
-
-# Run robot
-- script: |
-    export PATH="/opt/chrome:$PATH"
-    export HEADLESS=true
-    xvfb-run robot --variable ENV:ci ts01-search-book ts02-delete-book
+    export ENV=ci
+    robot --variable ENV:ci ts01-search-book ts02-delete-book
   displayName: Run Robot Framework tests
 
-# Publish report
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)

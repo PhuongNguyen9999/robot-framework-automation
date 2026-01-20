@@ -14,18 +14,27 @@ steps:
 # Install Google Chrome
 - script: |
     sudo apt-get update
-    sudo apt-get install -y wget unzip xvfb
+    sudo apt-get install -y wget unzip xvfb curl
     wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo apt install -y ./google-chrome-stable_current_amd64.deb
   displayName: 'Install Google Chrome'
 
-# Install ChromeDriver (official Chrome for Testing)
+# Install ChromeDriver (auto match Chrome version)
 - script: |
-    wget -q https://storage.googleapis.com/chrome-for-testing-public/143.0.7499.193/linux64/chromedriver-linux64.zip
-    unzip chromedriver-linux64.zip
-    sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+    CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
+    echo "Chrome major version: $CHROME_VERSION"
+
+    DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
+    echo "Matching ChromeDriver version: $DRIVER_VERSION"
+
+    wget -q https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip
+    unzip chromedriver_linux64.zip
+    sudo mv chromedriver /usr/local/bin/chromedriver
     sudo chmod +x /usr/local/bin/chromedriver
-  displayName: 'Install ChromeDriver'
+
+    chromedriver --version
+    google-chrome --version
+  displayName: 'Install ChromeDriver (match Chrome)'
 
 # Install Python dependencies
 - script: |

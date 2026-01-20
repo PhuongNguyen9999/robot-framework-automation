@@ -11,23 +11,23 @@ steps:
   inputs:
     versionSpec: '3.11'
 
-# 2. Cài thư viện
+# 2. Install libs
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
-# 3. Remove chromedriver cũ của Azure
+# 3. Remove chromedriver rác của Azure
 - script: |
     sudo rm -f /usr/bin/chromedriver
     sudo rm -f /usr/local/bin/chromedriver
     which chromedriver || echo "No chromedriver in PATH"
   displayName: 'Remove default ChromeDriver'
 
-# 4. Cài Chrome
+# 4. Install Chrome
 - script: |
     sudo apt-get update
-    sudo apt-get install -y wget unzip curl xvfb libxi6 libgconf-2-4
+    sudo apt-get install -y wget unzip curl xvfb jq
 
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo apt install -y ./google-chrome-stable_current_amd64.deb
@@ -35,24 +35,25 @@ steps:
     google-chrome --version
   displayName: 'Install Google Chrome'
 
-# 5. Cài ChromeDriver đúng version Chrome
+# 5. Install matching ChromeDriver (Chrome for Testing)
 - script: |
-    CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
-    echo "Chrome major version: $CHROME_VERSION"
+    CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
+    echo "Chrome version: $CHROME_VERSION"
 
-    DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
-    echo "ChromeDriver version: $DRIVER_VERSION"
+    DRIVER_URL=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/known-good-versions-with-downloads.json \
+      | jq -r ".versions[] | select(.version==\"$CHROME_VERSION\") | .downloads.chromedriver[] | select(.platform==\"linux64\") | .url")
 
-    wget https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip
-    unzip chromedriver_linux64.zip
+    echo "Driver URL: $DRIVER_URL"
 
-    sudo mv chromedriver /usr/bin/chromedriver
+    wget $DRIVER_URL -O chromedriver.zip
+    unzip chromedriver.zip
+    sudo mv chromedriver-linux64/chromedriver /usr/bin/chromedriver
     sudo chmod +x /usr/bin/chromedriver
 
     chromedriver --version
   displayName: 'Install matching ChromeDriver'
 
-# 6. Run Robot bằng XVFB
+# 6. Run Robot with virtual display
 - script: |
     xvfb-run --auto-servernum --server-args='-screen 0 1920x1080x24' \
     robot ts01-search-book ts02-delete-book

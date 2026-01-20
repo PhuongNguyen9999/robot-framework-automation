@@ -11,20 +11,19 @@ steps:
   inputs:
     versionSpec: '3.11'
 
-# Install Chrome
+# Install Google Chrome
 - script: |
     sudo apt-get update
     sudo apt-get install -y wget unzip xvfb
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     sudo apt install -y ./google-chrome-stable_current_amd64.deb
   displayName: 'Install Google Chrome'
 
-# Install ChromeDriver
+# Install ChromeDriver (official Chrome for Testing)
 - script: |
-    CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
-    wget https://chromedriver.storage.googleapis.com/$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)/chromedriver_linux64.zip
-    unzip chromedriver_linux64.zip
-    sudo mv chromedriver /usr/local/bin/
+    wget -q https://storage.googleapis.com/chrome-for-testing-public/143.0.7499.193/linux64/chromedriver-linux64.zip
+    unzip chromedriver-linux64.zip
+    sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
     sudo chmod +x /usr/local/bin/chromedriver
   displayName: 'Install ChromeDriver'
 
@@ -33,7 +32,7 @@ steps:
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
-# Run Robot with virtual display
+# Run Robot Framework tests
 - script: |
     xvfb-run robot ts01-search-book ts02-delete-book
   displayName: 'Run Robot Framework tests'

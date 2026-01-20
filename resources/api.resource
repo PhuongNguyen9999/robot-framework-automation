@@ -17,13 +17,11 @@ Add Book Via API
     ...    userName=${USERNAME}
     ...    password=${PASSWORD}
 
-    ${auth_resp}=    POST On Session    demoqa    /Account/v1/GenerateToken    json=${auth}
-    Should Be Equal As Integers    ${auth_resp.status_code}    200
-
-    ${token}=    Set Variable    ${auth_resp.json()['token']}
+    # Retry Generate Token (fix flaky 502)
+    Wait Until Keyword Succeeds    3x    5s    Generate Token Once    ${auth}
 
     ${headers}=    Create Dictionary
-    ...    Authorization=Bearer ${token}
+    ...    Authorization=Bearer ${TOKEN}
     ...    Content-Type=application/json
 
     ${isbn}=    Create Dictionary    isbn=${BOOK_ISBN}
@@ -37,3 +35,9 @@ Add Book Via API
     Run Keyword If    ${resp.status_code} == 400 and "${ALREADY_PRESENT_MSG}" in """${resp.text}"""    Log    Book already exists, skipping add
     ...    ELSE IF    ${resp.status_code} == 201    Log    Book added successfully
     ...    ELSE    Fail    Add book failed: ${resp.status_code} ${resp.text}
+
+Generate Token Once
+    [Arguments]    ${auth}
+    ${auth_resp}=    POST On Session    demoqa    /Account/v1/GenerateToken    json=${auth}
+    Should Be Equal As Integers    ${auth_resp.status_code}    200
+    Set Suite Variable    ${TOKEN}    ${auth_resp.json()['token']}

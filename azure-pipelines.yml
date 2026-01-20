@@ -13,11 +13,34 @@ steps:
     pip install -r requirements.txt
   displayName: 'Install dependencies'
 
+# Install Chrome
 - script: |
-    sudo apt-get update
-    sudo apt-get install -y xvfb
-  displayName: 'Install Xvfb'
+    sudo apt update
+    sudo apt install -y google-chrome-stable
+  displayName: 'Install Chrome'
 
+# Install matching ChromeDriver
+- script: |
+    CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
+    echo "Chrome major version: $CHROME_VERSION"
+
+    DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
+    echo "Driver version: $DRIVER_VERSION"
+
+    wget -q https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip
+    unzip chromedriver_linux64.zip
+    sudo mv chromedriver /usr/local/bin/
+    sudo chmod +x /usr/local/bin/chromedriver
+
+    chromedriver --version
+  displayName: 'Install ChromeDriver'
+
+# Install xvfb
+- script: |
+    sudo apt install -y xvfb
+  displayName: 'Install xvfb'
+
+# Run tests
 - script: |
     export HEADLESS=true
     xvfb-run robot ts01-search-book ts02-delete-book

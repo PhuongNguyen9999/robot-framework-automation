@@ -17,13 +17,21 @@ steps:
     pip install -r requirements.txt
   displayName: Install dependencies
 
-# Start Selenium Chrome container
+# Start Selenium Chrome container (lightweight & stable)
 - script: |
-    docker run -d -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:latest
+    echo "Pulling Selenium Chrome image..."
+    docker pull selenium/standalone-chrome:4.17.0
+
+    echo "Starting Selenium Chrome container..."
+    docker run -d -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:4.17.0
+
+    echo "Waiting for Selenium Grid to be ready..."
     until curl -s http://localhost:4444/wd/hub/status | grep -q '"ready":true'; do
       echo "Waiting for Selenium..."
       sleep 5
     done
+
+    echo "Selenium Grid is ready!"
   displayName: Start Selenium Chrome
 
 # Run robot with CI config

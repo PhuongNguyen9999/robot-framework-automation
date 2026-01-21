@@ -30,12 +30,13 @@ steps:
 # Chạy Robot Framework tests
 # xvfb-run: Chạy chương trình trong môi trường ảo hóa màn hình (dùng cho Linux GUI app)
 # --variable ENV:ci: Truyền biến môi trường CI vào Robot code (để load common_ci.resource)
+# -d results: Lưu kết quả test vào thư mục results (để gọn gàng và dễ lấy artifact)
 - script: |
-    xvfb-run -a robot --variable ENV:ci ts01-search-book ts02-delete-book
+    xvfb-run -a robot --variable ENV:ci -d results ts01-search-book ts02-delete-book
   displayName: Run Robot Framework tests
 
 # Publish kết quả test (report.html, log.html) lên Azure DevOps để xem online
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: $(System.DefaultWorkingDirectory)
+    targetPath: $(System.DefaultWorkingDirectory)/results
     artifact: robot-report

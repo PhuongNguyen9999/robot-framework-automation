@@ -8,17 +8,12 @@ ${BROWSER}    chrome
 Open Browser To URL
     [Arguments]    ${url}
 
-    ${chrome_args}=    Create List
-    ...    --headless=new
-    ...    --no-sandbox
-    ...    --disable-dev-shm-usage
-    ...    --disable-gpu
-    ...    --window-size=1920,1080
-
-    ${options}=    Create Dictionary
-    ...    args=${chrome_args}
-
-    Open Browser    ${url}    ${BROWSER}    options=${options}
+    Open Browser    ${url}    ${BROWSER}
+    ...    options=add_argument(--headless=new)
+    ...    ;add_argument(--no-sandbox)
+    ...    ;add_argument(--disable-dev-shm-usage)
+    ...    ;add_argument(--disable-gpu)
+    ...    ;add_argument(--window-size=1920,1080)
 
 Close Browser Session
     Close All Browsers

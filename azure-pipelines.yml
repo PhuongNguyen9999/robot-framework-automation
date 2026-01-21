@@ -11,15 +11,40 @@ steps:
   inputs:
     versionSpec: '3.11'
 
+# Install Python dependencies
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
-  displayName: Install dependencies
+  displayName: Install Python dependencies
 
+# Install Chrome + ChromeDriver + xvfb (display ảo)
 - script: |
-    robot --variable ENV:ci ts01-search-book ts02-delete-book
+    sudo apt-get update
+    sudo apt-get install -y wget unzip xvfb curl
+
+    # Install Chrome
+    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    sudo apt install -y ./google-chrome-stable_current_amd64.deb
+
+    # Install ChromeDriver matching Chrome version
+    CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1)
+    DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION)
+
+    wget -N https://chromedriver.storage.googleapis.com/$DRIVER_VERSION/chromedriver_linux64.zip
+    unzip chromedriver_linux64.zip
+    sudo mv chromedriver /usr/local/bin/
+    sudo chmod +x /usr/local/bin/chromedriver
+
+    google-chrome --version
+    chromedriver --version
+  displayName: Install Chrome and ChromeDriver
+
+# Run Robot tests with virtual display
+- script: |
+    xvfb-run -a robot --variable ENV:ci ts01-search-book ts02-delete-book
   displayName: Run Robot Framework tests
 
+# Publish report
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)

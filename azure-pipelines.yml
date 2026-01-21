@@ -20,7 +20,10 @@ steps:
 # Start Selenium Chrome container
 - script: |
     docker run -d -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:latest
-    sleep 10
+    until curl -s http://localhost:4444/wd/hub/status | grep -q '"ready":true'; do
+      echo "Waiting for Selenium..."
+      sleep 5
+    done
   displayName: Start Selenium Chrome
 
 # Run robot with CI config

@@ -1,22 +1,24 @@
 *** Settings ***
-Library    SeleniumLibrary
+Library    SeleniumLibrary    timeout=20s
 
 *** Variables ***
-${BROWSER}    chrome
-${REMOTE_URL}    http://localhost:4444
+${BROWSER}      chrome
+${REMOTE_URL}   http://localhost:4444/wd/hub
 
 *** Keywords ***
 Open Browser To URL
     [Arguments]    ${url}
 
-    ${options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys, selenium.webdriver
-    Call Method    ${options}    add_argument    --headless
-    Call Method    ${options}    add_argument    --no-sandbox
-    Call Method    ${options}    add_argument    --disable-dev-shm-usage
-    Call Method    ${options}    add_argument    --window-size=1920,1080
+    ${options}=    Create Dictionary
+    ...    args=--headless=new,--no-sandbox,--disable-dev-shm-usage,--window-size=1920,1080
 
-    Open Browser    ${url}    ${BROWSER}    remote_url=${REMOTE_URL}    options=${options}
-    Set Selenium Timeout    20s
+    Open Browser
+    ...    ${url}
+    ...    ${BROWSER}
+    ...    remote_url=${REMOTE_URL}
+    ...    options=${options}
+
+    Maximize Browser Window
 
 Close Browser Session
-    Close Browser
+    Close All Browsers

@@ -2,7 +2,6 @@
 ${ENV}    local
 
 *** Settings ***
-Resource    ../resources/common.resource
 Resource    ../resources/common_${ENV}.resource
 Resource    ../resources/book_store.resource
 Resource    ../data/books.resource

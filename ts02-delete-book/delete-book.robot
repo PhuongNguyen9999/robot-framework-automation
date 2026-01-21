@@ -34,4 +34,4 @@ TC02 - Delete book successfully
 *** Keywords ***
 Prepare Test Data
     Add Book Via API
-    Run Keyword If    '${ENV}' == 'ci'    Open Browser To URL    ${BOOK_STORE_URL}
+    Open Browser To URL    ${BOOK_STORE_URL}

@@ -13,6 +13,7 @@ Open Book Store Page
 
 Search Book
     [Arguments]    ${keyword}
+    Wait Until Element Is Visible    ${SEARCH_BOX}    10s
     Input Text    ${SEARCH_BOX}    ${keyword}
     Sleep    1s
 

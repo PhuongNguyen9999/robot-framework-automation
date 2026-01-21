@@ -9,7 +9,7 @@ Open Browser To URL
     [Arguments]    ${url}
 
     ${chrome_args}=    Create List
-    ...    --headless
+    ...    --headless=new
     ...    --no-sandbox
     ...    --disable-dev-shm-usage
     ...    --disable-gpu
@@ -19,7 +19,6 @@ Open Browser To URL
     ...    args=${chrome_args}
 
     Open Browser    ${url}    ${BROWSER}    options=${options}
-    Maximize Browser Window
 
 Close Browser Session
     Close All Browsers

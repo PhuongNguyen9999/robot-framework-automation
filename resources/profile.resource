@@ -1,5 +1,5 @@
 *** Settings ***
-Library    SeleniumLibrary
+# Library    SeleniumLibrary
 
 *** Variables ***
 ${PROFILE_URL}    https://demoqa.com/profile

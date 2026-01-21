@@ -1,279 +1,279 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.4.1 (Python 3.11.11 on win32)" generated="2026-01-21T11:46:35.656069" rpa="false" schemaversion="5">
+<robot generator="Robot 7.4.1 (Python 3.11.11 on win32)" generated="2026-01-21T14:16:39.304183" rpa="false" schemaversion="5">
 <suite id="s1" name="Robot-Framework-Automation" source="C:\automation\robot-framework-automation">
 <suite id="s1-s1" name="Ts01-Search-Book" source="C:\automation\robot-framework-automation\ts01-search-book">
 <suite id="s1-s1-s1" name="Search-Books" source="C:\automation\robot-framework-automation\ts01-search-book\search-books.robot">
 <kw name="Open Browser To URL" owner="common_local" type="SETUP">
 <kw name="Open Browser" owner="SeleniumLibrary">
-<msg time="2026-01-21T11:46:35.890395" level="INFO">Opening browser 'chrome' to base url 'https://demoqa.com/books'.</msg>
+<msg time="2026-01-21T14:16:39.560293" level="INFO">Opening browser 'chrome' to base url 'https://demoqa.com/books'.</msg>
 <arg>${url}</arg>
 <arg>${BROWSER}</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2026-01-21T11:46:35.890395" elapsed="8.923718"/>
+<status status="PASS" start="2026-01-21T14:16:39.560293" elapsed="8.967621"/>
 </kw>
 <kw name="Maximize Browser Window" owner="SeleniumLibrary">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" start="2026-01-21T11:46:44.815108" elapsed="0.055849"/>
+<status status="PASS" start="2026-01-21T14:16:48.528911" elapsed="0.081296"/>
 </kw>
 <arg>${BOOK_STORE_URL}</arg>
-<status status="PASS" start="2026-01-21T11:46:35.890395" elapsed="8.980562"/>
+<status status="PASS" start="2026-01-21T14:16:39.560293" elapsed="9.049914"/>
 </kw>
 <test id="s1-s1-s1-t1" name="TC01 - Search books with keyword Design" line="15">
 <kw name="Search Book And Verify">
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-01-21T11:46:44.889154" level="INFO">Start test with keyword: Design</msg>
+<msg time="2026-01-21T14:16:48.627858" level="INFO">Start test with keyword: Design</msg>
 <arg>Start test with keyword: ${keyword}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-01-21T11:46:44.888148" elapsed="0.002170"/>
+<status status="PASS" start="2026-01-21T14:16:48.624852" elapsed="0.004003"/>
 </kw>
 <kw name="Search Book" owner="book_store">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2026-01-21T11:46:44.895843" level="INFO">Typing text 'Design' into text field 'id:searchBox'.</msg>
+<msg time="2026-01-21T14:16:48.638867" level="INFO">Typing text 'Design' into text field 'id:searchBox'.</msg>
 <arg>${SEARCH_BOX}</arg>
 <arg>${keyword}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2026-01-21T11:46:44.893336" elapsed="0.268174"/>
+<status status="PASS" start="2026-01-21T14:16:48.632866" elapsed="0.392323"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2026-01-21T11:46:46.163600" level="INFO">Slept 1 second.</msg>
+<msg time="2026-01-21T14:16:50.028343" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2026-01-21T11:46:45.161510" elapsed="1.002090"/>
+<status status="PASS" start="2026-01-21T14:16:49.026184" elapsed="1.002159"/>
 </kw>
 <arg>${keyword}</arg>
-<status status="PASS" start="2026-01-21T11:46:44.891338" elapsed="1.273749"/>
+<status status="PASS" start="2026-01-21T14:16:48.629857" elapsed="1.398486"/>
 </kw>
 <kw name="Get Book Count" owner="book_store">
 <kw name="Get Element Count" owner="SeleniumLibrary">
-<msg time="2026-01-21T11:46:46.215308" level="INFO">${count} = 2</msg>
+<msg time="2026-01-21T14:16:50.050944" level="INFO">${count} = 2</msg>
 <var>${count}</var>
 <arg>css:.rt-tbody .rt-tr-group a</arg>
 <doc>Returns the number of elements matching ``locator``.</doc>
-<status status="PASS" start="2026-01-21T11:46:46.167142" elapsed="0.048166"/>
+<status status="PASS" start="2026-01-21T14:16:50.030365" elapsed="0.021595"/>
 </kw>
 <return>
 <value>${count}</value>
-<status status="PASS" start="2026-01-21T11:46:46.216329" elapsed="0.000545"/>
+<status status="PASS" start="2026-01-21T14:16:50.051960" elapsed="0.000000"/>
 </return>
-<msg time="2026-01-21T11:46:46.216874" level="INFO">${count} = 2</msg>
+<msg time="2026-01-21T14:16:50.051960" level="INFO">${count} = 2</msg>
 <var>${count}</var>
-<status status="PASS" start="2026-01-21T11:46:46.165608" elapsed="0.052692"/>
+<status status="PASS" start="2026-01-21T14:16:50.029349" elapsed="0.023596"/>
 </kw>
 <kw name="Should Be True" owner="BuiltIn">
 <arg>${count} &gt; 0</arg>
 <doc>Fails if the given condition is not true.</doc>
-<status status="PASS" start="2026-01-21T11:46:46.219306" elapsed="0.002016"/>
+<status status="PASS" start="2026-01-21T14:16:50.052945" elapsed="0.001032"/>
 </kw>
 <for flavor="IN RANGE">
 <iter>
 <kw name="Get Book Title By Index" owner="book_store">
 <kw name="Get Text" owner="SeleniumLibrary">
-<msg time="2026-01-21T11:46:46.279912" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
+<msg time="2026-01-21T14:16:50.113842" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
 <var>${title}</var>
 <arg>xpath=(//div[@class="rt-tbody"]//a)[${index}+1]</arg>
 <doc>Returns the text value of the element identified by ``locator``.</doc>
-<status status="PASS" start="2026-01-21T11:46:46.225621" elapsed="0.055283"/>
+<status status="PASS" start="2026-01-21T14:16:50.056100" elapsed="0.057742"/>
 </kw>
 <return>
 <value>${title}</value>
-<status status="PASS" start="2026-01-21T11:46:46.280904" elapsed="0.001000"/>
+<status status="PASS" start="2026-01-21T14:16:50.114862" elapsed="0.000000"/>
 </return>
-<msg time="2026-01-21T11:46:46.282900" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
+<msg time="2026-01-21T14:16:50.115880" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
 <var>${title}</var>
 <arg>${i}</arg>
-<status status="PASS" start="2026-01-21T11:46:46.223622" elapsed="0.059737"/>
+<status status="PASS" start="2026-01-21T14:16:50.055053" elapsed="0.060827"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-01-21T11:46:46.285769" level="INFO">Book 1: Learning JavaScript Design Patterns</msg>
+<msg time="2026-01-21T14:16:50.118159" level="INFO">Book 1: Learning JavaScript Design Patterns</msg>
 <arg>Book ${i + 1}: ${title}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-01-21T11:46:46.283359" elapsed="0.003929"/>
+<status status="PASS" start="2026-01-21T14:16:50.115880" elapsed="0.002279"/>
 </kw>
 <kw name="Should Contain" owner="BuiltIn">
 <arg>${title.lower()}</arg>
 <arg>${SEARCH_EXPECT_TEXT}</arg>
 <doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
-<status status="PASS" start="2026-01-21T11:46:46.288319" elapsed="0.002356"/>
+<status status="PASS" start="2026-01-21T14:16:50.118159" elapsed="0.000988"/>
 </kw>
 <var name="${i}">0</var>
-<status status="PASS" start="2026-01-21T11:46:46.222597" elapsed="0.069078"/>
+<status status="PASS" start="2026-01-21T14:16:50.055053" elapsed="0.064094"/>
 </iter>
 <iter>
 <kw name="Get Book Title By Index" owner="book_store">
 <kw name="Get Text" owner="SeleniumLibrary">
-<msg time="2026-01-21T11:46:46.331570" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
+<msg time="2026-01-21T14:16:50.139764" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
 <var>${title}</var>
 <arg>xpath=(//div[@class="rt-tbody"]//a)[${index}+1]</arg>
 <doc>Returns the text value of the element identified by ``locator``.</doc>
-<status status="PASS" start="2026-01-21T11:46:46.295081" elapsed="0.037478"/>
+<status status="PASS" start="2026-01-21T14:16:50.121320" elapsed="0.018444"/>
 </kw>
 <return>
 <value>${title}</value>
-<status status="PASS" start="2026-01-21T11:46:46.332945" elapsed="0.000000"/>
+<status status="PASS" start="2026-01-21T14:16:50.140773" elapsed="0.000000"/>
 </return>
-<msg time="2026-01-21T11:46:46.333939" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
+<msg time="2026-01-21T14:16:50.140773" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
 <var>${title}</var>
 <arg>${i}</arg>
-<status status="PASS" start="2026-01-21T11:46:46.292677" elapsed="0.042267"/>
+<status status="PASS" start="2026-01-21T14:16:50.120302" elapsed="0.020471"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-01-21T11:46:46.338768" level="INFO">Book 2: Designing Evolvable Web APIs with ASP.NET</msg>
+<msg time="2026-01-21T14:16:50.142773" level="INFO">Book 2: Designing Evolvable Web APIs with ASP.NET</msg>
 <arg>Book ${i + 1}: ${title}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-01-21T11:46:46.334944" elapsed="0.004837"/>
+<status status="PASS" start="2026-01-21T14:16:50.141774" elapsed="0.000999"/>
 </kw>
 <kw name="Should Contain" owner="BuiltIn">
 <arg>${title.lower()}</arg>
 <arg>${SEARCH_EXPECT_TEXT}</arg>
 <doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
-<status status="PASS" start="2026-01-21T11:46:46.339781" elapsed="0.003375"/>
+<status status="PASS" start="2026-01-21T14:16:50.142773" elapsed="0.001032"/>
 </kw>
 <var name="${i}">1</var>
-<status status="PASS" start="2026-01-21T11:46:46.291675" elapsed="0.051481"/>
+<status status="PASS" start="2026-01-21T14:16:50.120302" elapsed="0.023503"/>
 </iter>
 <var>${i}</var>
 <value>${count}</value>
-<status status="PASS" start="2026-01-21T11:46:46.221680" elapsed="0.121476"/>
+<status status="PASS" start="2026-01-21T14:16:50.053977" elapsed="0.091132"/>
 </for>
 <arg>Design</arg>
-<status status="PASS" start="2026-01-21T11:46:44.884229" elapsed="1.458927"/>
+<status status="PASS" start="2026-01-21T14:16:48.623853" elapsed="1.521256"/>
 </kw>
-<status status="PASS" start="2026-01-21T11:46:44.871950" elapsed="1.472202"/>
+<status status="PASS" start="2026-01-21T14:16:48.610207" elapsed="1.535924"/>
 </test>
 <test id="s1-s1-s1-t2" name="TC02 - Search books with keyword design" line="18">
 <kw name="Search Book And Verify">
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-01-21T11:46:46.379107" level="INFO">Start test with keyword: design</msg>
+<msg time="2026-01-21T14:16:50.157766" level="INFO">Start test with keyword: design</msg>
 <arg>Start test with keyword: ${keyword}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-01-21T11:46:46.377077" elapsed="0.002030"/>
+<status status="PASS" start="2026-01-21T14:16:50.157766" elapsed="0.000000"/>
 </kw>
 <kw name="Search Book" owner="book_store">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2026-01-21T11:46:46.383123" level="INFO">Typing text 'design' into text field 'id:searchBox'.</msg>
+<msg time="2026-01-21T14:16:50.159776" level="INFO">Typing text 'design' into text field 'id:searchBox'.</msg>
 <arg>${SEARCH_BOX}</arg>
 <arg>${keyword}</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2026-01-21T11:46:46.382124" elapsed="0.279551"/>
+<status status="PASS" start="2026-01-21T14:16:50.158824" elapsed="0.145842"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2026-01-21T11:46:47.665249" level="INFO">Slept 1 second.</msg>
+<msg time="2026-01-21T14:16:51.306009" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2026-01-21T11:46:46.662671" elapsed="1.002578"/>
+<status status="PASS" start="2026-01-21T14:16:50.304666" elapsed="1.001343"/>
 </kw>
 <arg>${keyword}</arg>
-<status status="PASS" start="2026-01-21T11:46:46.380129" elapsed="1.285120"/>
+<status status="PASS" start="2026-01-21T14:16:50.158824" elapsed="1.148322"/>
 </kw>
 <kw name="Get Book Count" owner="book_store">
 <kw name="Get Element Count" owner="SeleniumLibrary">
-<msg time="2026-01-21T11:46:47.677594" level="INFO">${count} = 2</msg>
+<msg time="2026-01-21T14:16:51.330503" level="INFO">${count} = 2</msg>
 <var>${count}</var>
 <arg>css:.rt-tbody .rt-tr-group a</arg>
 <doc>Returns the number of elements matching ``locator``.</doc>
-<status status="PASS" start="2026-01-21T11:46:47.667510" elapsed="0.011388"/>
+<status status="PASS" start="2026-01-21T14:16:51.309749" elapsed="0.020754"/>
 </kw>
 <return>
 <value>${count}</value>
-<status status="PASS" start="2026-01-21T11:46:47.678898" elapsed="0.000000"/>
+<status status="PASS" start="2026-01-21T14:16:51.333696" elapsed="0.000000"/>
 </return>
-<msg time="2026-01-21T11:46:47.679895" level="INFO">${count} = 2</msg>
+<msg time="2026-01-21T14:16:51.335710" level="INFO">${count} = 2</msg>
 <var>${count}</var>
-<status status="PASS" start="2026-01-21T11:46:47.665249" elapsed="0.014646"/>
+<status status="PASS" start="2026-01-21T14:16:51.307146" elapsed="0.031400"/>
 </kw>
 <kw name="Should Be True" owner="BuiltIn">
 <arg>${count} &gt; 0</arg>
 <doc>Fails if the given condition is not true.</doc>
-<status status="PASS" start="2026-01-21T11:46:47.679895" elapsed="0.000987"/>
+<status status="PASS" start="2026-01-21T14:16:51.339557" elapsed="0.001001"/>
 </kw>
 <for flavor="IN RANGE">
 <iter>
 <kw name="Get Book Title By Index" owner="book_store">
 <kw name="Get Text" owner="SeleniumLibrary">
-<msg time="2026-01-21T11:46:47.702531" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
+<msg time="2026-01-21T14:16:51.388351" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
 <var>${title}</var>
 <arg>xpath=(//div[@class="rt-tbody"]//a)[${index}+1]</arg>
 <doc>Returns the text value of the element identified by ``locator``.</doc>
-<status status="PASS" start="2026-01-21T11:46:47.682882" elapsed="0.020833"/>
+<status status="PASS" start="2026-01-21T14:16:51.343581" elapsed="0.044770"/>
 </kw>
 <return>
 <value>${title}</value>
-<status status="PASS" start="2026-01-21T11:46:47.703715" elapsed="0.000000"/>
+<status status="PASS" start="2026-01-21T14:16:51.388351" elapsed="0.001008"/>
 </return>
-<msg time="2026-01-21T11:46:47.704718" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
+<msg time="2026-01-21T14:16:51.389359" level="INFO">${title} = Learning JavaScript Design Patterns</msg>
 <var>${title}</var>
 <arg>${i}</arg>
-<status status="PASS" start="2026-01-21T11:46:47.681882" elapsed="0.022836"/>
+<status status="PASS" start="2026-01-21T14:16:51.342070" elapsed="0.047289"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-01-21T11:46:47.705716" level="INFO">Book 1: Learning JavaScript Design Patterns</msg>
+<msg time="2026-01-21T14:16:51.391377" level="INFO">Book 1: Learning JavaScript Design Patterns</msg>
 <arg>Book ${i + 1}: ${title}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-01-21T11:46:47.704718" elapsed="0.000998"/>
+<status status="PASS" start="2026-01-21T14:16:51.390352" elapsed="0.001025"/>
 </kw>
 <kw name="Should Contain" owner="BuiltIn">
 <arg>${title.lower()}</arg>
 <arg>${SEARCH_EXPECT_TEXT}</arg>
 <doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
-<status status="PASS" start="2026-01-21T11:46:47.705716" elapsed="0.002522"/>
+<status status="PASS" start="2026-01-21T14:16:51.392367" elapsed="0.000990"/>
 </kw>
 <var name="${i}">0</var>
-<status status="PASS" start="2026-01-21T11:46:47.681882" elapsed="0.026356"/>
+<status status="PASS" start="2026-01-21T14:16:51.342070" elapsed="0.051287"/>
 </iter>
 <iter>
 <kw name="Get Book Title By Index" owner="book_store">
 <kw name="Get Text" owner="SeleniumLibrary">
-<msg time="2026-01-21T11:46:47.731198" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
+<msg time="2026-01-21T14:16:51.438466" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
 <var>${title}</var>
 <arg>xpath=(//div[@class="rt-tbody"]//a)[${index}+1]</arg>
 <doc>Returns the text value of the element identified by ``locator``.</doc>
-<status status="PASS" start="2026-01-21T11:46:47.709238" elapsed="0.022959"/>
+<status status="PASS" start="2026-01-21T14:16:51.396357" elapsed="0.042109"/>
 </kw>
 <return>
 <value>${title}</value>
-<status status="PASS" start="2026-01-21T11:46:47.732197" elapsed="0.000000"/>
+<status status="PASS" start="2026-01-21T14:16:51.438466" elapsed="0.001149"/>
 </return>
-<msg time="2026-01-21T11:46:47.733199" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
+<msg time="2026-01-21T14:16:51.439615" level="INFO">${title} = Designing Evolvable Web APIs with ASP.NET</msg>
 <var>${title}</var>
 <arg>${i}</arg>
-<status status="PASS" start="2026-01-21T11:46:47.709238" elapsed="0.023961"/>
+<status status="PASS" start="2026-01-21T14:16:51.395358" elapsed="0.044257"/>
 </kw>
 <kw name="Log" owner="BuiltIn">
-<msg time="2026-01-21T11:46:47.735263" level="INFO">Book 2: Designing Evolvable Web APIs with ASP.NET</msg>
+<msg time="2026-01-21T14:16:51.440621" level="INFO">Book 2: Designing Evolvable Web APIs with ASP.NET</msg>
 <arg>Book ${i + 1}: ${title}</arg>
 <doc>Logs the given message with the given level.</doc>
-<status status="PASS" start="2026-01-21T11:46:47.734249" elapsed="0.001014"/>
+<status status="PASS" start="2026-01-21T14:16:51.439615" elapsed="0.002519"/>
 </kw>
 <kw name="Should Contain" owner="BuiltIn">
 <arg>${title.lower()}</arg>
 <arg>${SEARCH_EXPECT_TEXT}</arg>
 <doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
-<status status="PASS" start="2026-01-21T11:46:47.735263" elapsed="0.002508"/>
+<status status="PASS" start="2026-01-21T14:16:51.442134" elapsed="0.001256"/>
 </kw>
 <var name="${i}">1</var>
-<status status="PASS" start="2026-01-21T11:46:47.708238" elapsed="0.029533"/>
+<status status="PASS" start="2026-01-21T14:16:51.394354" elapsed="0.049036"/>
 </iter>
 <var>${i}</var>
 <value>${count}</value>
-<status status="PASS" start="2026-01-21T11:46:47.680882" elapsed="0.056889"/>
+<status status="PASS" start="2026-01-21T14:16:51.340558" elapsed="0.102832"/>
 </for>
 <arg>design</arg>
-<status status="PASS" start="2026-01-21T11:46:46.374524" elapsed="1.363247"/>
+<status status="PASS" start="2026-01-21T14:16:50.156826" elapsed="1.287721"/>
 </kw>
-<status status="PASS" start="2026-01-21T11:46:46.356974" elapsed="1.381808"/>
+<status status="PASS" start="2026-01-21T14:16:50.152238" elapsed="1.292309"/>
 </test>
 <kw name="Close Browser Session" owner="common_local" type="TEARDOWN">
 <kw name="Close Browser" owner="SeleniumLibrary">
 <doc>Closes the current browser.</doc>
-<status status="PASS" start="2026-01-21T11:46:47.747425" elapsed="2.403779"/>
+<status status="PASS" start="2026-01-21T14:16:51.453231" elapsed="3.440744"/>
 </kw>
-<status status="PASS" start="2026-01-21T11:46:47.747425" elapsed="2.403779"/>
+<status status="PASS" start="2026-01-21T14:16:51.453231" elapsed="3.441759"/>
 </kw>
-<status status="PASS" start="2026-01-21T11:46:35.699245" elapsed="14.451959"/>
+<status status="PASS" start="2026-01-21T14:16:39.368522" elapsed="15.526468"/>
 </suite>
-<status status="PASS" start="2026-01-21T11:46:35.698581" elapsed="14.456527"/>
+<status status="PASS" start="2026-01-21T14:16:39.361183" elapsed="15.535842"/>
 </suite>
-<status status="PASS" start="2026-01-21T11:46:35.659250" elapsed="14.507979"/>
+<status status="PASS" start="2026-01-21T14:16:39.306196" elapsed="15.590829"/>
 </suite>
 <statistics>
 <total>

@@ -2,7 +2,6 @@
 ${ENV}    local
 
 *** Settings ***
-Library     SeleniumLibrary
 Resource    ../resources/api.resource
 Resource    ../resources/login.resource
 Resource    ../resources/profile.resource

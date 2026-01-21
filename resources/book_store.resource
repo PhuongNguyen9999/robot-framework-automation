@@ -1,5 +1,5 @@
 *** Settings ***
-Library    SeleniumLibrary
+# Library    SeleniumLibrary
 
 *** Variables ***
 ${BOOK_STORE_URL}    https://demoqa.com/books

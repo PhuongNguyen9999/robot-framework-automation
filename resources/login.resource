@@ -1,5 +1,5 @@
 *** Settings ***
-Library    SeleniumLibrary
+# Library    SeleniumLibrary
 
 *** Variables ***
 ${LOGIN_URL}       https://demoqa.com/login

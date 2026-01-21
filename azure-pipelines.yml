@@ -6,49 +6,19 @@ pool:
 
 steps:
 
-# Python
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.11'
 
-# Install libs
 - script: |
     python -m pip install --upgrade pip
     pip install -r requirements.txt
   displayName: Install dependencies
 
-# Pull selenium image first (avoid timeout)
-- script: |
-    echo "Pulling selenium image..."
-    docker pull selenium/standalone-chrome:4.17.0
-  displayName: Pull Selenium Image
-
-# Start Selenium Chrome
-- script: |
-    echo "Starting Selenium Chrome container..."
-    docker run -d --name selenium-chrome -p 4444:4444 --shm-size="2g" selenium/standalone-chrome:4.17.0
-
-    echo "Waiting for Selenium Grid..."
-    for i in {1..30}; do
-      if curl -s http://localhost:4444/wd/hub/status | grep -q '"ready":true'; then
-        echo "Selenium Grid is ready!"
-        exit 0
-      fi
-      echo "Waiting for Selenium... ($i/30)"
-      sleep 10
-    done
-
-    echo "Selenium Grid did not start in time"
-    docker logs selenium-chrome
-    exit 1
-  displayName: Start Selenium Chrome
-
-# Run robot with CI config
 - script: |
     robot --variable ENV:ci ts01-search-book ts02-delete-book
   displayName: Run Robot Framework tests
 
-# Publish report
 - task: PublishPipelineArtifact@1
   inputs:
     targetPath: $(System.DefaultWorkingDirectory)

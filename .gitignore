@@ -1,0 +1,21 @@
+# Random OS files
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+
+# Robot Framework outputs
+results/
+log.html
+output.xml
+report.html
+selenium-screenshot-*.png
+
+# Python virtual env
+venv/
+env/
+.env
+
+# IDEs
+.vscode/
+.idea/

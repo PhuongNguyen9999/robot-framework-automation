@@ -13,6 +13,5 @@ Open Browser To URL
 Close Browser Session
     Close Browser
 
-Delete All Sessions
-    Close All Browsers
+
 

@@ -8,14 +8,12 @@ ${BROWSER}    chrome
 Open Browser To URL
     [Arguments]    ${url}
 
-    ${options}=    Evaluate    __import__('selenium.webdriver').webdriver.ChromeOptions()
+    Open Browser    ${url}    ${BROWSER}
+    ...    options=add_argument:--headless=new
+    ...    options=add_argument:--no-sandbox
+    ...    options=add_argument:--disable-dev-shm-usage
+    ...    options=add_argument:--window-size=1920,1080
 
-    Call Method    ${options}    add_argument    --headless=new
-    Call Method    ${options}    add_argument    --no-sandbox
-    Call Method    ${options}    add_argument    --disable-dev-shm-usage
-    Call Method    ${options}    add_argument    --window-size=1920,1080
-
-    Open Browser    ${url}    ${BROWSER}    options=${options}
     Maximize Browser Window
 
 Close Browser Session

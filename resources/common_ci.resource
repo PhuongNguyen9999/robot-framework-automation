@@ -8,7 +8,7 @@ ${BROWSER}    chrome
 Open Browser To URL
     [Arguments]    ${url}
 
-    ${options}=    Evaluate    sys.modules["selenium.webdriver"].ChromeOptions()    sys
+    ${options}=    Evaluate    __import__('selenium.webdriver').webdriver.ChromeOptions()
 
     Call Method    ${options}    add_argument    --headless=new
     Call Method    ${options}    add_argument    --no-sandbox

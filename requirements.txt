@@ -1,5 +1,8 @@
 robotframework
+# Thư viện core của Robot Framework
 robotframework-seleniumlibrary>=6.3.0
+# Library để điều khiển trình duyệt (dùng cho web automation). Dùng bản mới (>=) để có Selenium Manager mới nhất.
 selenium>=4.17.2
+# Helper để gửi HTTP Requests dễ dàng trong Robot Framework
 robotframework-requests
 requests
